@@ -1,0 +1,92 @@
+Costume Candy Counter
+You are provided with a list called costumeList, where each item is a TrickOrTreater record containing three fields: Id, costumeName, and candyCollected.
+
+
+apex
+Copy
+public class TrickOrTreater {
+    public String Id;
+    public String costumeName;
+    public Double candyCollected;
+}
+Your task is to determine which Halloween costume collected the most candy across all trick-or-treaters. Return this costumeName. There will always be exactly 1 costume to return.
+
+
+
+Example 1:
+
+Input: costumeList =
+
+apex
+Copy
+[
+  {"Id": "TOT68b00001PxVWiAAN", "costumeName": "Witch", "candyCollected": 100.00}, 
+  {"Id": "TOT68b00001Tovi7AAB", "costumeName": "Witch", "candyCollected": 200.00}, 
+  {"Id": "TOT68b00001Tovi8AAB", "costumeName": "Vampire", "candyCollected": 150.00} 
+]
+Output: Witch
+
+
+**Explanation**: The first two trick-or-treaters wore "Witch" costumes, collecting 100 + 200 = 300 pieces of candy. "Vampire" collected only 150 pieces. Since 300 > 150, "Witch" is returned as the ultimate candy-collecting costume! 🍬
+
+
+Example 2:
+
+Input: costumeList =
+
+apex
+Copy
+[
+   {"Id": "TOT68b00001PxVWiAAN", "costumeName": "Ghost", "candyCollected": 500.50},
+   {"Id": "TOT68b00001Tovi7AAB", "costumeName": "Superhero", "candyCollected": 620.40},
+   {"Id": "TOT68b00001Tovi8AAB", "costumeName": "Zombie", "candyCollected": 80.20}
+]
+Output: Superhero
+
+
+**Explanation**: Each trick-or-treater wore a different costume. The one who collected the most candy was dressed as "Superhero" with 620.40 pieces, so it is returned as the candy champion! 🎃🍫
+
+
+Example 3:
+
+Input: costumeList =
+
+apex
+Copy
+[
+   {"Id": "TOT68b00001PxVWiAAN", "costumeName": "Pumpkin", "candyCollected": 300.23},
+   {"Id": "TOT68b00001Tovi7AAB", "costumeName": "Pumpkin", "candyCollected": 190.20},
+   {"Id": "TOT68b00001Tovi8AAB", "costumeName": "Pumpkin", "candyCollected": 20.20}
+]
+Output: Pumpkin
+
+
+**Explanation**: All trick-or-treaters wore the beloved "Pumpkin" costume. This festive favorite is returned as it had the highest total candy collected across all trick-or-treaters! 🎃🍭
+/./////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class Solution {
+    public String getTopCandyCostume(List<TrickOrTreater> costumeList){
+        Decimal countHigh=0.0;
+        Decimal countHigh1=0.0;
+        Decimal countHigh2=0.0;
+        String winner;
+        Map<String,Decimal> CostumeWinnerMap= new Map<String,Decimal>();
+        for(TrickOrTreater costume :costumeList ){
+           if(CostumeWinnerMap.containsKey(costume.costumeName) == false){
+            CostumeWinnerMap.put(costume.costumeName,costume.candyCollected);
+           }
+           else if(CostumeWinnerMap.containsKey(costume.costumeName) == true){
+            countHigh =CostumeWinnerMap.get(costume.costumeName)+costume.candyCollected;
+            CostumeWinnerMap.put(costume.costumeName,countHigh);
+           }
+    }
+        for(TrickOrTreater costume :costumeList ){
+         countHigh1 =CostumeWinnerMap.get(costume.costumeName);  
+        if(countHigh1 > countHigh2){
+            countHigh =costume.candyCollected;
+            winner = costume.costumeName;
+           }
+         countHigh2=countHigh1;  
+        }
+    return winner;
+}
+}
