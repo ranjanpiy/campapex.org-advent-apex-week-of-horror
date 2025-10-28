@@ -1,0 +1,105 @@
+Nightmare on Elm Street: Freddy's Dream Cycle
+
+Welcome to Elm Street, where Freddy Krueger haunts your dreams! 🔪💤
+
+
+You are given a list of integers representing sleep stages throughout the night, where each number represents the depth of sleep (1-5, with 5 being the deepest). Freddy Krueger appears in your nightmares under specific conditions.
+
+
+Freddy appears when ANY of the following conditions are met:
+
+The Rule of 13: There are 3 consecutive sleep stages that sum to exactly 13
+The Odd Rule: There is any sequence of exactly 5 consecutive sleep stages where all numbers are odd
+
+Your task is to determine if Freddy appears in the dream sequence. Return true if Freddy appears, false otherwise.
+
+
+Example 1:
+
+Input: sleepStages = [1, 5, 7, 2, 3]
+Output: true
+
+
+**Explanation**: The first three consecutive stages are [1, 5, 7], which sum to 13. Freddy appears! 😱
+
+
+
+Example 2:
+
+Input: sleepStages = [1, 3, 5, 1, 3]
+Output: true
+
+
+**Explanation**: All five consecutive stages [1, 3, 5, 1, 3] are odd numbers. Freddy appears! 🔪
+
+
+
+Example 3:
+
+Input: sleepStages = [2, 4, 2, 4, 2]
+Output: false
+
+
+**Explanation**: No sequence of 3 sums to 13, and not all numbers in any 5-sequence are odd. You're safe... for now. 😴
+
+
+
+Example 4:
+
+Input: sleepStages = [5, 5, 3, 1, 1, 3, 5]
+Output: true
+
+
+**Explanation**: Both conditions are met! [5, 5, 3] sums to 13, AND [5, 3, 1, 1, 3] are all odd. Double Freddy! 😱🔪
+
+
+
+Example 5:
+
+Input: sleepStages = [1, 2, 3, 4]
+Output: false
+
+
+**Explanation**: [1, 2, 3] sums to 6 (not 13), [2, 3, 4] sums to 9 (not 13), [3, 4, 5] sums to 12 (not 13). The list has only 4 elements, so we can't check the 5-consecutive odd rule. Safe from Freddy! 😌
+
+
+
+Notes:
+
+Sleep stages are always integers between 1 and 5 (inclusive)
+The list will have at least 1 element
+For the Rule of 13: check ALL possible consecutive triplets
+For the Odd Rule: check ALL possible consecutive sequences of exactly 5 elements
+If the list has fewer than 3 elements, the Rule of 13 cannot apply
+If the list has fewer than 5 elements, the Odd Rule cannot apply
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class Solution {
+    public Boolean doesFreddyAppear(List<Integer> sleepStages){
+        // Solution here
+        Boolean result;
+        Integer size = sleepStages.size();
+        if(size >2){
+            for(Integer i=0;i<=(size-3);i++){
+                if((sleepStages[i]+sleepStages[i+1]+sleepStages[i+2]) == 13){
+                result =true;
+                break;
+                }
+                else
+                result= false;
+            }
+            if(size >=5 && result==false){
+            for(Integer i=0;i<=(size-5);i++){
+                if((math.mod(sleepStages[i],2)+math.mod(sleepStages[i+1],2)+math.mod(sleepStages[i+2],2)+math.mod(sleepStages[i+3],2)+math.mod(sleepStages[i+4],2))==5){
+                result=true; 
+                break;
+                }
+                else
+                result=false;
+            }
+        }
+        }
+        else
+        result= false;
+        return result;
+    }
+}
