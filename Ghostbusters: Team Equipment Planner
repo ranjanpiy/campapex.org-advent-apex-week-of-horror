@@ -1,0 +1,125 @@
+Ghostbusters: Team Equipment Planner
+You are building a Ghostbusters equipment checker! Given a ghost's name and your available equipment, you need to determine what additional equipment is required to safely capture that ghost.
+
+
+You'll need to make a GET request to the Ghostbusters API to retrieve ghost entity data, then compare the required equipment for the specified ghost against your available equipment.
+
+
+API Endpoint: https://camp-apex-api.vercel.app/api/ghostbusters/entities
+
+
+API Response Format:
+
+apex
+Copy
+{
+  "success": true,
+  "count": 4,
+  "entities": [
+    {
+      "entity_id": "ghost-001",
+      "name": "Slimer",
+      "classification": "Class 5 Full Roaming Vapor",
+      "danger_rating": 3,
+      "ectoplasm_level": 8,
+      "required_equipment": ["Proton Pack", "Ghost Trap", "PKE Meter", "Ecto Goggles"],
+      "location": "Sedgewick Hotel Kitchen",
+      "bounty": 5000,
+      "manifestation_time": "11:30 PM"
+    },
+    // ... more entities
+  ]
+}
+Need help with the API?
+📚 API Documentation | 💡 API Examples
+
+
+⚠️ Important Setup Required:
+Before you can call the API, you must add the endpoint to your Remote Site Settings in your connected org:
+
+Go to Setup → Security → Remote Site Settings
+Click New Remote Site
+Set Remote Site Name: CampApexAPI (or any name you prefer)
+Set Remote Site URL: https://camp-apex-api.vercel.app
+Check Active and click Save
+
+Your task is to return a list of equipment items that you're missing to capture the specified ghost. If you have all required equipment, return an empty list. The returned list should maintain the order of equipment as it appears in the ghost's required_equipment array.
+
+
+Example 1:
+
+Input: ghostName = "Slimer", availableEquipment = ["Proton Pack", "PKE Meter"]
+Output: ["Ghost Trap", "Ecto Goggles"]
+
+
+**Explanation**: Slimer requires 4 pieces of equipment: Proton Pack, Ghost Trap, PKE Meter, and Ecto Goggles. You have Proton Pack and PKE Meter, so you're missing Ghost Trap and Ecto Goggles. 👻
+
+
+
+Example 2:
+
+Input: ghostName = "Library Ghost", availableEquipment = ["Proton Pack", "Ghost Trap", "PKE Meter", "Containment Unit", "Ecto Goggles"]
+Output: []
+
+
+**Explanation**: You have all the required equipment to capture the Library Ghost! Time to bust some ghosts! 🚫👻
+
+
+
+Example 3:
+
+Input: ghostName = "Stay Puft Marshmallow Man", availableEquipment = ["Proton Pack", "Ghost Trap"]
+Output: ["PKE Meter", "Containment Unit", "Ecto Goggles", "Muon Trap", "Protection Grid", "Proton Grenades", "Ecto-1 Vehicle"]
+
+
+**Explanation**: The Stay Puft Marshmallow Man is a Class 8 Giga-manifestation and requires 9 pieces of equipment! You only have 2, so you're missing 7 critical items. Better gear up! 🍡👻
+
+
+
+Notes:
+
+Ghost names in the API are case-sensitive and must match exactly
+Equipment names are also case-sensitive
+You can assume the ghost name provided will always exist in the API response
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*Do not change the name of the class or the method signature.*/
+class Solution {
+    public List<String> getTeamEquipment(List<String> ghostNames){
+        // Solution here
+        Map<String,Object> ghostNameEquipmentDetailMap = new Map<String,Object>();
+        Map<String,List<String>> ghostNameEquipmentDetailMap2 = new Map<String,List<String>>();
+        List<String> output = new List<String>();
+        Set<String> equipment = new Set<String>();
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint('https://camp-apex-api.vercel.app/api/ghostbusters/entities');
+        request.setMethod('GET'); //GET API method
+        Http http = new Http();
+        HttpResponse response = http.send(request); //response
+        String responseBody = response.getBody();
+        Map<String, Object> jsonMap = (Map<String, Object>)Json.deserializeUntyped(responseBody); //response coverted from JSON, but it will retun key= entities and all responses in Object
+        List<Object> listObject = (List<Object>)jsonMap.get('entities'); //This will store the value of responses
+        for(object ghostDetail : listObject){
+            Map<String,Object> ghostDetailMap =(Map<String, Object>)ghostDetail;
+            ghostNameEquipmentDetailMap.put((String)ghostDetailMap.get('name'),ghostDetailMap.get('required_equipment')); //this is done to store the ghostName and needed equipment
+        }
+        for(String ghostName2 :ghostNameEquipmentDetailMap.keySet()){ //to change the map from Map<String,Object> to Map<String, List<String>>
+            Object value =ghostNameEquipmentDetailMap.get(ghostName2);
+            if(value instanceof List<Object>){ //This checks if the value is a list of objects. instanceof is used to test the actual runtime type of value.
+            List<Object> objList = (List<Object>)value; //If the value is a List<Object>, we cast it so we can work with it as a list.
+            List<String> strList = new List<String>(); //We create a new list to hold the converted string values.
+
+            for (Object item : objList) { //Loop through each item in the list. Convert each item to a string using String.valueOf(item) — this safely handles nulls and other types.
+                strList.add(String.valueOf(item));
+            }
+
+            ghostNameEquipmentDetailMap2.put(ghostName2, strList);
+        }
+        }
+        for(String gName :ghostNames){ //loop through each items in given list of ghost Names
+            List<String> euipList = ghostNameEquipmentDetailMap2.get(gName); //get the equipment as desired list
+            equipment.addAll(euipList); //convert the list to set to remove duplicate items
+        }
+         output.addAll(equipment); //convert the set to list as per desired output format
+         return output;
+    }
+}
