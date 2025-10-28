@@ -114,6 +114,19 @@ class Solution {
             ghostNameEquipmentDetailMap2.put(ghostName2, strList);
         }
         }
+
+      /*for(object ghostDetail : listObject){ // we can use this method instead to convert to Map<String, List<String>>
+            
+                Map<String,Object> ghostDetailMap =(Map<String, Object>)ghostDetail;
+                String name =(String)ghostDetailMap.get('name');
+                List<Object> equipmentRaw = (List<Object>)ghostDetailMap.get('required_equipment');
+                List<String> equipment = new List<String>();
+                 for (Object item : equipmentRaw) {
+                    equipment.add(String.valueOf(item));
+                        }
+                ghostNameEquipmentDetailMap2.put(name,equipment);
+
+             }*/
         List<String> output = ghostNameEquipmentDetailMap2.get(ghostName);
         for(String Equipment :availableEquipment){
             Integer result = output.indexOf(Equipment);
