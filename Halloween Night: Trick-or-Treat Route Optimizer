@@ -3,7 +3,8 @@ Halloween Night: Trick-or-Treat Route Optimizer
 It's Halloween night! Thanks for playing along so far! The most magical evening of the year for trick-or-treaters across the neighborhood is finally here! 🎃👻🍬
 
 
-As an experienced trick-or-treater, you know that not all houses are created equal. Some give out king-size candy bars, while others are downright terrifying. You need to plan the perfect route to maximize your candy haul while staying within your comfort zone for scary encounters.
+As an experienced trick-or-treater, you know that not all houses are created equal. Some give out king-size candy bars, while others are downright terrifying. 
+You need to plan the perfect route to maximize your candy haul while staying within your comfort zone for scary encounters.
 
 
 Your Task:
@@ -25,9 +26,11 @@ Getter methods for all properties
 A TrickOrTreatPlanner manages the neighborhood and helps plan routes. It should have these methods:
 
 void addHouse(House house) - Adds a house to the neighborhood
-List<String> planRoute(Integer maxScaryLevel) - Returns a list of house addresses that should be visited (houses where candyAmount > 0 AND scaryLevel ≤ maxScaryLevel), sorted by candyAmount in descending order (most candy first). If two houses have the same candyAmount, sort by address alphabetically.
+List<String> planRoute(Integer maxScaryLevel) - Returns a list of house addresses that should be visited (houses where candyAmount > 0 AND scaryLevel ≤ maxScaryLevel), sorted by candyAmount in descending order
+(most candy first). If two houses have the same candyAmount, sort by address alphabetically.
 Integer getTotalCandy(List<String> addresses) - Calculates and returns the total candy from visiting the specified houses
-List<String> getSafestRoute(Integer minCandyGoal) - Returns the addresses of houses that meet the minimum candy goal with the lowest average scaryLevel. Include the minimum number of houses needed to reach the goal, prioritizing houses with lower scaryLevels first, then by highest candyAmount if scaryLevels are equal. If the goal cannot be met, return an empty list.
+List<String> getSafestRoute(Integer minCandyGoal) - Returns the addresses of houses that meet the minimum candy goal with the lowest average scaryLevel. Include the minimum number of houses needed to reach the goal,
+prioritizing houses with lower scaryLevels first, then by highest candyAmount if scaryLevels are equal. If the goal cannot be met, return an empty list.
 
 Example Usage:
 
