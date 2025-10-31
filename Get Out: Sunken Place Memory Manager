@@ -76,3 +76,40 @@ If a memoryId doesn't exist, sinkMemory and surfaceMemory should do nothing (no 
 getMemory should return null if the memory doesn't exist
 The Memory class should be a simple data container (no complex logic needed)
 The MemoryVault class should manage all the memories internally (hint: use a Map!)
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*Do not change the class names or method signatures.*/
+
+public class Memory {
+    // // Private properties -> keeps the properties hidden from outside code.
+    private String id;
+    private String description;
+    private Integer depth;
+
+    public Memory(String id, String description){
+        this.id =id;
+        this.description =description;
+        this.depth =1;//initial depth
+    }
+
+    //getter methods
+    public String getid(){
+        return id;
+    }
+    public String description(){
+        return description;
+    }
+    public Integer depth(){
+        return depth;
+    }
+}
+
+public class MemoryVault {//this stores multiple Memory objects
+    // Your code here
+    private List<Memory> memories; //This is list to hold Memory items and private means only this class can directly access the list
+    public MemoryVault(){
+        memories =new List<Memory>();
+    }
+    void addMemory(Memory memory){
+        memories.add(Memory);
+    }
+}
