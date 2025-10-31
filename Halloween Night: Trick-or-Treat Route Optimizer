@@ -1,0 +1,115 @@
+Halloween Night: Trick-or-Treat Route Optimizer
+#apex-week-of-horror
+It's Halloween night! Thanks for playing along so far! The most magical evening of the year for trick-or-treaters across the neighborhood is finally here! 🎃👻🍬
+
+
+As an experienced trick-or-treater, you know that not all houses are created equal. Some give out king-size candy bars, while others are downright terrifying. You need to plan the perfect route to maximize your candy haul while staying within your comfort zone for scary encounters.
+
+
+Your Task:
+Create two classes that work together to plan the ultimate trick-or-treat route:
+
+
+1. House Class
+A House should have the following properties:
+
+String address - unique identifier for the house (like "123 Elm St")
+Integer candyAmount - how many pieces of candy this house gives out
+Integer scaryLevel - how scary the house is (1-10, where 10 is a full haunted house)
+The House class should have:
+
+A constructor that takes address, candyAmount, and scaryLevel
+Getter methods for all properties
+
+2. TrickOrTreatPlanner Class
+A TrickOrTreatPlanner manages the neighborhood and helps plan routes. It should have these methods:
+
+void addHouse(House house) - Adds a house to the neighborhood
+List<String> planRoute(Integer maxScaryLevel) - Returns a list of house addresses that should be visited (houses where candyAmount > 0 AND scaryLevel ≤ maxScaryLevel), sorted by candyAmount in descending order (most candy first). If two houses have the same candyAmount, sort by address alphabetically.
+Integer getTotalCandy(List<String> addresses) - Calculates and returns the total candy from visiting the specified houses
+List<String> getSafestRoute(Integer minCandyGoal) - Returns the addresses of houses that meet the minimum candy goal with the lowest average scaryLevel. Include the minimum number of houses needed to reach the goal, prioritizing houses with lower scaryLevels first, then by highest candyAmount if scaryLevels are equal. If the goal cannot be met, return an empty list.
+
+Example Usage:
+
+apex
+Copy
+TrickOrTreatPlanner planner = new TrickOrTreatPlanner();
+
+House h1 = new House('123 Elm St', 50, 2);
+House h2 = new House('456 Oak Ave', 30, 5);
+House h3 = new House('789 Maple Dr', 40, 3);
+House h4 = new House('321 Pine Ln', 20, 8);
+House h5 = new House('654 Birch Ct', 0, 1);  // No candy!
+
+planner.addHouse(h1);
+planner.addHouse(h2);
+planner.addHouse(h3);
+planner.addHouse(h4);
+planner.addHouse(h5);
+
+// Plan a route with max scary level of 5
+List<String> route = planner.planRoute(5);
+// Returns: ['123 Elm St', '789 Maple Dr', '456 Oak Ave']
+// (sorted by candy: 50, 40, 30. Excludes 321 Pine Ln (too scary) and 654 Birch Ct (no candy))
+
+// Calculate total candy for a route
+Integer total = planner.getTotalCandy(new List<String>{'123 Elm St', '789 Maple Dr'});
+// Returns: 90 (50 + 40)
+
+// Get the safest route to collect at least 60 candies
+List<String> safest = planner.getSafestRoute(60);
+// Returns: ['123 Elm St', '789 Maple Dr']
+// (50 + 40 = 90 candies, average scary level = (2+3)/2 = 2.5)
+// This is safer than ['123 Elm St', '456 Oak Ave'] which would be (2+5)/2 = 3.5
+
+More Examples:
+
+Example 1: planRoute with different thresholds
+
+apex
+Copy
+// Same houses as above
+planner.planRoute(3);
+// Returns: ['123 Elm St', '789 Maple Dr']
+// Only includes houses with scaryLevel ≤ 3 and candy > 0
+
+planner.planRoute(10);
+// Returns: ['123 Elm St', '789 Maple Dr', '456 Oak Ave', '321 Pine Ln']
+// Includes all houses with candy > 0, sorted by candy amount descending
+
+Example 2: getTotalCandy
+
+apex
+Copy
+planner.getTotalCandy(new List<String>{'123 Elm St', '456 Oak Ave', '789 Maple Dr'});
+// Returns: 120 (50 + 30 + 40)
+
+planner.getTotalCandy(new List<String>{'999 Fake St'});
+// Returns: 0 (house doesn't exist)
+
+Example 3: getSafestRoute
+
+apex
+Copy
+planner.getSafestRoute(100);
+// Returns: ['123 Elm St', '789 Maple Dr', '456 Oak Ave']
+// Need all three to reach 100+ candies (50+40+30=120)
+
+planner.getSafestRoute(500);
+// Returns: [] (impossible to reach 500 candies)
+
+planner.getSafestRoute(50);
+// Returns: ['123 Elm St']
+// Only need one house (50 candies), and it has the lowest scary level (2)
+
+Important Notes:
+
+Houses with candyAmount = 0 should never be included in routes (even if they're not scary)
+For planRoute: sort by candyAmount descending, then by address alphabetically for ties
+For getSafestRoute: prioritize lowest scaryLevel first, then highest candyAmount for ties
+For getSafestRoute: return the minimum number of houses needed to meet the goal
+For getSafestRoute: if the goal cannot be met with any combination, return an empty list
+For getTotalCandy: if an address doesn't exist, just skip it (don't count it)
+All scaryLevels are between 1-10
+All candyAmounts are >= 0
+Addresses are unique
