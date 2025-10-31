@@ -113,3 +113,16 @@ For getTotalCandy: if an address doesn't exist, just skip it (don't count it)
 All scaryLevels are between 1-10
 All candyAmounts are >= 0
 Addresses are unique
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+public class House {
+    // Your code here
+    private String address;
+    private Integer candyAmount;
+    private Integer scaryLevel;
+
+    
+}
+
+public class TrickOrTreatPlanner {
+    // Your code here
+}
