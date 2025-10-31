@@ -105,11 +105,61 @@ public class Memory {
 
 public class MemoryVault {//this stores multiple Memory objects
     // Your code here
-    private List<Memory> memories; //This is list to hold Memory items and private means only this class can directly access the list
+    private Map<String,Memory> memoryMap; 
+    //This is map to hold Memory items and private means only this class can directly access the list
+    
     public MemoryVault(){
-        memories =new List<Memory>();
+        memoryMap =new Map<String,Memory>();//memory should be initislized to protect from null error
     }
-    void addMemory(Memory memory){
-        memories.add(Memory);
+    //the above constructor runs when new valut is created, it has initilized a list to store memories. Without this it would be empty
+
+    public void addMemory(Memory memory){ //Memory memory menas passing in memory object
+     if(memory !=null && memory.getid() !=null ) //for null check
+        memoryMap.put(memory.getid(),memory); //add the memory in map
+    }
+
+    public Memory getMemory(String memoryId){ //Returns a specific memory by id (or null if not found)
+        Memory m;
+        m= memoryMap.get(memoryId);
+        if(m !=null)
+        return m;
+        else
+        return null;
+    }
+    public void sinkMemory(String memoryId){ // Increases the depth of a memory by 1 (max depth is 5)
+        Memory memory =memoryMap.get(memoryId);
+        if(memory !=null){
+            Integer depth =memory.depth();
+            if(memory.depth<5){
+            memory.depth++;
+            }
+      }  
+    }
+    public void surfaceMemory(String memoryId){ //Decreases the depth of a memory by 1 (min depth is 1)
+      Memory memory = memoryMap.get(memoryId);
+       if(memory !=null){
+         Integer depth =memory.depth();  
+         if(memory.depth>1){
+          memory.depth--;
+         }
+        }
+    }
+    public List<Memory> getLostMemories(){ //Returns all memories at depth 5 (completely lost)
+     List<Memory> memoryList =new List<Memory>();//should be initislized to protect from null error
+     for(String id:memoryMap.keySet()){
+        Memory memory =memoryMap.get(id);
+        if(memory.depth ==5){
+          memoryList.add(memory);  
+        }
+     }
+     return memoryList;
+    }
+    public Integer getTotalSunkDepth(){ //Returns the sum of all memory depths in the vault
+    Integer sum=0;//it should be initialized, esle in case of no memory it will throw null error.
+    for(String id:memoryMap.keySet()){
+        Memory memory =memoryMap.get(id);
+        sum=sum+memory.depth;
+    }
+    return sum;
     }
 }
