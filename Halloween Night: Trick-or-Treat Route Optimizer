@@ -122,7 +122,24 @@ public class House {
     private String address;
     private Integer candyAmount;
     private Integer scaryLevel;
+    //constructors
+    public House(String address, Integer candyAmount, Integer scaryLevel){
+        this.address=address;
+        this.candyAmount=candyAmount;
+        this.scaryLevel=scaryLevel;
+    }
+        //getter methods
+    public String getaddress(){
+        return address;
+    }
 
+    public Integer candyAmount(){
+        return candyAmount;
+    }
+
+    public Integer scaryLevel(){
+        return scaryLevel;
+    }
     
 }
 
