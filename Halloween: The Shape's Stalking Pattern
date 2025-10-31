@@ -1,0 +1,131 @@
+Halloween: The Shape's Stalking Pattern
+
+#apex-week-of-horror
+Michael Myers, "The Shape," is watching from the shadows. 🎃🔪
+
+
+Throughout Haddonfield, residents have reported sightings of Michael Myers at various locations. As the town's sheriff, you need to determine if Michael is stalking a specific target by analyzing his movement pattern
+throughout the day.
+
+
+The Situation:
+You're given a string where each character represents a location where Michael was spotted (A-Z, where each letter represents a different house or location in Haddonfield).
+
+
+Stalking Pattern Rules:
+Michael is stalking a location if BOTH of the following conditions are met:
+
+The same location appears at least 3 times throughout the sightings
+At least two of those appearances are consecutive (back-to-back in the string)
+
+Your Task:
+Return the location (letter) that Michael is stalking. If multiple locations match the pattern, return the one that appears most frequently. If there's still a tie, return the one that appears first in the alphabet. 
+If no stalking pattern exists, return the string "NO_TARGET".
+
+
+Example 1:
+
+Input: sightings = "ABCAACDEF"
+Output: "A"
+
+
+**Explanation**: Location 'A' appears 3 times at positions 0, 3, and 4. Positions 3 and 4 are consecutive ("AA"), meeting both conditions. Michael is stalking location A! 🔪
+
+
+
+Example 2:
+
+Input: sightings = "ABCDEFAAA"
+Output: "A"
+
+
+**Explanation**: Location 'A' appears 4 times (position 0, 6, 7, 8). Positions 6, 7, and 8 form consecutive sightings ("AAA"). Stalking pattern confirmed! 👀
+
+
+
+Example 3:
+
+Input: sightings = "ABACADAEA"
+Output: "NO_TARGET"
+
+
+**Explanation**: Location 'A' appears 5 times, but never consecutively. No stalking pattern detected. 😌
+
+
+
+Example 4:
+
+Input: sightings = "AABBBCCDD"
+Output: "B"
+
+
+**Explanation**: Multiple locations have consecutive appearances: A (2 times, consecutive), B (3 times, consecutive), C (2 times, consecutive), D (2 times, consecutive). 
+However, only B appears at least 3 times AND has consecutive sightings. B is the target! 🎯
+
+
+
+Example 5:
+
+Input: sightings = "ABBCCCDDD"
+Output: "D"
+
+
+**Explanation**: Both C and D appear 3 times with consecutive sightings. They tie in frequency (3 each), but 'C' comes before 'D' alphabetically, so we return "C"... wait, let me recount. 
+C appears 3 times (positions 4,5,6) with consecutive appearances. D appears 3 times (positions 6,7,8) with consecutive appearances. Since they tie in frequency, we return the one that appears first alphabetically: "C". 
+Actually, let me recount the positions: A(0), B(1,2), C(3,4,5), D(6,7,8). So C appears 3 times consecutively, D appears 3 times consecutively. Tie in frequency (3), so return "C" (earlier alphabetically). 🔤
+
+
+
+Example 5 (Corrected):
+
+Input: sightings = "ABBCCCDDD"
+Output: "C"
+
+
+**Explanation**: C appears 3 times at positions 4, 5, 6 (consecutive: "CCC"). D appears 3 times at positions 6, 7, 8 (consecutive: "DDD"). Both meet the criteria and tie in frequency. 
+Return "C" because it comes first alphabetically. 🔤
+
+
+
+Example 6:
+
+Input: sightings = "AABBCCAADDAA"
+Output: "A"
+
+
+**Explanation**: A appears 6 times with multiple consecutive pairs (positions 0-1, 6-7, 10-11). B appears 2 times (not enough). C appears 2 times (not enough). D appears 2 times (not enough). 
+Only A meets both conditions. 👻
+
+
+
+Important Notes:
+
+->The sightings string will only contain uppercase letters A-Z
+->The string will have at least 1 character
+->"Consecutive" means the letters are adjacent in the string (back-to-back)
+->A location must appear at least 3 times total AND have at least one instance of consecutive appearances
+->If multiple locations qualify, return the most frequent one
+->If there's a tie in frequency, return the one that appears first alphabetically
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*Do not change the name of the class or the method signature.*/
+class Solution {
+    public String findStalkingTarget(String sightings){
+        // Solution here
+        String result='NO_TARGET';
+        List<Integer> sightingsToInteger= new List<Integer>(sightings.getChars());
+        Set<Integer> sightingsToIntegerUnique = new Set<Integer>(sightingsToInteger);
+        List<Integer> sightingsToIntegerUniqueList = new List<Integer>(sightingsToIntegerUnique);
+        Integer countOld=0;
+        for(Integer i:sightingsToIntegerUniqueList ){
+            String character = String.fromCharArray(new List<Integer>{i});
+            Integer count=sightings.countMatches(character);
+            String charCons =character.repeat(2);
+            Boolean condition2 =sightings.contains(charCons);
+            if(count >=3 && (condition2 ==true) && count>countOld){
+                result=character;
+            }
+            countOld=count;
+        }
+        return result;
+    }
+}
