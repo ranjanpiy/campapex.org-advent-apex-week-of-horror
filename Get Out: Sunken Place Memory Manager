@@ -1,0 +1,78 @@
+Get Out: Sunken Place Memory Manager
+Welcome to the Sunken Place, where memories fade into darkness. 🕳️🧠
+
+
+In this challenge, you'll build a memory management system inspired by the psychological horror of Get Out. Memories can be "sunk" deeper into the subconscious or "surfaced" back to consciousness.
+
+
+Your Task:
+Create two classes that work together to manage memories in the Sunken Place:
+
+
+1. Memory Class
+A Memory should have the following properties:
+
+String id - unique identifier for the memory
+String description - what the memory is about
+Integer depth - how deep the memory is sunk (1-5, where 5 is completely lost)
+The Memory class should have:
+
+A constructor that takes id, description, and sets initial depth to 1
+Getter methods for all properties
+
+2. MemoryVault Class
+A MemoryVault manages a collection of memories and should have these methods:
+
+void addMemory(Memory memory) - Adds a new memory to the vault
+void sinkMemory(String memoryId) - Increases the depth of a memory by 1 (max depth is 5)
+void surfaceMemory(String memoryId) - Decreases the depth of a memory by 1 (min depth is 1)
+List<Memory> getLostMemories() - Returns all memories at depth 5 (completely lost)
+Integer getTotalSunkDepth() - Returns the sum of all memory depths in the vault
+Memory getMemory(String memoryId) - Returns a specific memory by id (or null if not found)
+
+Example Usage:
+
+apex
+Copy
+MemoryVault vault = new MemoryVault();
+
+Memory m1 = new Memory('M001', 'Childhood birthday party');
+Memory m2 = new Memory('M002', 'First day of school');
+Memory m3 = new Memory('M003', 'Family vacation');
+
+vault.addMemory(m1);
+vault.addMemory(m2);
+vault.addMemory(m3);
+
+// All memories start at depth 1
+vault.getTotalSunkDepth(); // Returns: 3 (1+1+1)
+
+// Sink some memories
+vault.sinkMemory('M001'); // M001 now at depth 2
+vault.sinkMemory('M001'); // M001 now at depth 3
+vault.sinkMemory('M002'); // M002 now at depth 2
+
+vault.getTotalSunkDepth(); // Returns: 6 (3+2+1)
+
+// Sink M003 to the deepest level
+vault.sinkMemory('M003'); // depth 2
+vault.sinkMemory('M003'); // depth 3
+vault.sinkMemory('M003'); // depth 4
+vault.sinkMemory('M003'); // depth 5
+
+vault.getLostMemories(); // Returns: List with M003 (depth 5)
+
+// Try to surface a memory
+vault.surfaceMemory('M001'); // M001 now at depth 2
+
+vault.getTotalSunkDepth(); // Returns: 9 (2+2+5)
+
+Important Notes:
+
+Memories cannot sink below depth 1 or above depth 5
+Attempting to sink a memory already at depth 5 should have no effect
+Attempting to surface a memory already at depth 1 should have no effect
+If a memoryId doesn't exist, sinkMemory and surfaceMemory should do nothing (no error)
+getMemory should return null if the memory doesn't exist
+The Memory class should be a simple data container (no complex logic needed)
+The MemoryVault class should manage all the memories internally (hint: use a Map!)
