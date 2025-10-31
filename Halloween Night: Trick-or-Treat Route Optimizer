@@ -145,4 +145,14 @@ public class House {
 
 public class TrickOrTreatPlanner {
     // Your code here
+    private Map<String,House> houseMap;
+
+    public TrickOrTreatPlanner(){
+        houseouseMap = new Map<String,House>();
+    }
+    void addHouse(House house){ //void addHouse(House house) - Adds a house to the neighborhood
+        if(house.address !=null){
+            houseouseMap.put(house.address,house);
+        }
+     }
 }
