@@ -1,0 +1,119 @@
+The Texas Chain Saw Massacre: Gas Station Route Planner
+
+You've escaped from Leatherface's farmhouse, but you're not safe yet! 🚐💨
+
+
+You're driving through rural Texas in an old van, trying to reach safety. Your van is low on gas, and you need to carefully plan your stops at gas stations along the highway. Every moment counts—Leatherface could be right behind you!
+
+
+The Situation:
+
+You start at mile 0 with a certain amount of fuel (measured in miles you can travel)
+Gas stations are located at various mile markers along the highway
+Your destination is at a specific mile marker
+Each time you stop at a gas station, it takes 5 minutes AND fully refuels your tank to its maximum capacity
+You must determine the minimum number of stops needed to reach your destination
+If it's impossible to reach the destination, return -1
+
+Your Task:
+Implement a method that takes:
+
+Integer destination - the mile marker you're trying to reach
+Integer tankCapacity - the maximum miles your van can travel on a full tank
+Integer currentFuel - the miles you can currently travel before running out of gas
+List<Integer> gasStations - mile markers where gas stations are located (sorted in ascending order)
+Return the minimum number of gas station stops needed, or -1 if impossible.
+
+
+Example 1:
+
+Input: destination = 100, tankCapacity = 50, currentFuel = 25, gasStations = [25, 50, 75]
+Output: 2
+
+
+**Explanation**: You start with 25 miles of fuel. Stop at mile 25 (refuel to 50), then you can reach mile 50 and stop again (refuel to 50), then reach mile 100. Total stops: 2. 🚐
+
+
+
+Example 2:
+
+Input: destination = 100, tankCapacity = 60, currentFuel = 60, gasStations = [20, 40, 60, 80]
+Output: 1
+
+
+**Explanation**: With 60 miles of fuel, you can reach mile 60, stop and refuel, then reach mile 100 (only 40 more miles needed). Total stops: 1. ⛽
+
+
+
+Example 3:
+
+Input: destination = 100, tankCapacity = 30, currentFuel = 30, gasStations = [10, 40, 70]
+Output: -1
+
+
+**Explanation**: From mile 10, the next station is at mile 40 (30 miles away). With a 30-mile tank, you can exactly reach mile 40. But from mile 40 to mile 70 is also 30 miles, and from 70 to 100 is 30 miles. However, after refueling at mile 10, you'd be at mile 10 with 30 miles of fuel, allowing you to reach mile 40. Wait, let me recalculate... Actually, you start at 0 with 30 fuel, can reach mile 30, but the next station after 10 is at mile 40 (you'd need to be within 30 miles). From 0, you can reach mile 30 (stop at mile 10, refuel to 30, reach mile 40, refuel, reach mile 70, refuel, reach mile 100). Let me reconsider... Starting at 0 with 30 fuel: reach mile 10 and stop (1 stop), refuel to 30, reach mile 40 and stop (2 stops), refuel to 30, reach mile 70 and stop (3 stops), refuel to 30, reach mile 100. So it's actually possible with 3 stops! Let me reconsider the example... 🤔
+
+
+
+Example 3 (Corrected):
+
+Input: destination = 100, tankCapacity = 25, currentFuel = 25, gasStations = [30, 60, 90]
+Output: -1
+
+
+**Explanation**: With only 25 miles of fuel, you can reach mile 25, but the first gas station is at mile 30. You can't reach it! Impossible to escape. 💀
+
+
+
+Example 4:
+
+Input: destination = 50, tankCapacity = 100, currentFuel = 100, gasStations = [25, 40, 60, 80]
+Output: 0
+
+
+**Explanation**: You start with 100 miles of fuel and only need to travel 50 miles. No stops needed! 🎉
+
+
+
+Example 5:
+
+Input: destination = 200, tankCapacity = 50, currentFuel = 50, gasStations = [50, 100, 150, 175]
+Output: 3
+
+
+**Explanation**: Stop at mile 50 (1 stop), mile 100 (2 stops), mile 150 (3 stops), then reach mile 200. Total: 3 stops. 🚗💨
+
+
+
+Important Notes:
+
+Gas stations are always sorted in ascending order by mile marker
+You can only travel forward (no going backwards)
+When you refuel, your tank is filled to its maximum capacity
+You don't have to stop at every gas station—only stop when necessary
+If you can reach the destination with your current fuel, return 0
+The destination will always be greater than 0
+Tank capacity and current fuel will always be greater than 0
+/////////////////////////////////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+class Solution {
+    public Integer minimumStops(Integer destination, Integer tankCapacity, Integer currentFuel, List<Integer> gasStations){
+        // Solution here
+        Integer stop =0;
+        Integer currentRun=currentFuel;
+        Integer delta=0;
+        if(destination < =currentRun)
+        return stop;
+        else{
+            for(Integer gasStation :gasStations){
+             if(currentRun ==gasStation){
+                currentRun =tankCapacity+currentRun;
+                stop=stop+1;
+             }
+            }
+            if(currentRun <destination)
+            return -1;
+            else
+            return stop;
+        }
+    }
+}
