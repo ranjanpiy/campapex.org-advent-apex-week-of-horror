@@ -148,11 +148,23 @@ public class TrickOrTreatPlanner {
     private Map<String,House> houseMap;
 
     public TrickOrTreatPlanner(){
-        houseouseMap = new Map<String,House>();
+        houseMap = new Map<String,House>();// this is for accessing the private data
     }
     void addHouse(House house){ //void addHouse(House house) - Adds a house to the neighborhood
         if(house.address !=null){
-            houseouseMap.put(house.address,house);
+            houseMap.put(house.address,house);
         }
-     }
+    }
+
+    List<String> planRoute(Integer maxScaryLevel){// sorted by candyAmount in descending order (most candy first). If two houses have the same candyAmount, sort by address alphabetically.
+        List<String> addressList = new List<String>();
+        for(String addr :houseMap.keySet()){
+            if(house.candyAmount>0 && house.scaryLevel <=maxScaryLevel){
+                addressList.add(addr);
+            }
+        }
+        return addressList;
+    }
+    Integer getTotalCandy(List<String> addresses){}
+    List<String> getSafestRoute(Integer minCandyGoal){}
 }
