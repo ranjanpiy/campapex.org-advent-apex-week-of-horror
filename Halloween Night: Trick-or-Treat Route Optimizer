@@ -117,6 +117,8 @@ All scaryLevels are between 1-10
 All candyAmounts are >= 0
 Addresses are unique
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*Do not change the class names or method signatures.*/
+
 public class House {
     // Your code here
     private String address;
@@ -133,38 +135,91 @@ public class House {
         return address;
     }
 
-    public Integer candyAmount(){
+    public Integer getcandyAmount(){
         return candyAmount;
     }
 
-    public Integer scaryLevel(){
+    public Integer getscaryLevel(){
         return scaryLevel;
     }
-    
 }
 
 public class TrickOrTreatPlanner {
-    // Your code here
-    private Map<String,House> houseMap;
+    private Map<String, House> neighborhood;
 
-    public TrickOrTreatPlanner(){
-        houseMap = new Map<String,House>();// this is for accessing the private data
+    public TrickOrTreatPlanner() {
+        neighborhood = new Map<String, House>();
     }
-    void addHouse(House house){ //void addHouse(House house) - Adds a house to the neighborhood
-        if(house.address !=null){
-            houseMap.put(house.address,house);
+
+    public void addHouse(House house) {
+        if (!neighborhood.containsKey(house.getAddress())) {
+            neighborhood.put(house.getAddress(), house);
         }
     }
 
-    List<String> planRoute(Integer maxScaryLevel){// sorted by candyAmount in descending order (most candy first). If two houses have the same candyAmount, sort by address alphabetically.
-        List<String> addressList = new List<String>();
-        for(String addr :houseMap.keySet()){
-            if(house.candyAmount>0 && house.scaryLevel <=maxScaryLevel){
-                addressList.add(addr);
+    public List<String> planRoute(Integer maxScaryLevel) {
+        List<House> filtered = new List<House>();
+
+        for (House h : neighborhood.values()) {
+            if (h.getCandyAmount() > 0 && h.getScaryLevel() <= maxScaryLevel) {
+                filtered.add(h);
             }
         }
-        return addressList;
+
+        filtered.sort(new CandyThenAddressSorter());
+
+        List<String> result = new List<String>();
+        for (House h : filtered) {
+            result.add(h.getAddress());
+        }
+
+        return result;
     }
-    Integer getTotalCandy(List<String> addresses){}
-    List<String> getSafestRoute(Integer minCandyGoal){}
+
+    public Integer getTotalCandy(List<String> addresses) {
+        Integer total = 0;
+        for (String addr : addresses) {
+            if (neighborhood.containsKey(addr)) {
+                total += neighborhood.get(addr).getCandyAmount();
+            }
+        }
+        return total;
+    }
+
+    public List<String> getSafestRoute(Integer minCandyGoal) {
+        List<House> sorted = new List<House>(neighborhood.values());
+        sorted.sort(new ScaryThenCandySorter());
+
+        List<String> route = new List<String>();
+        Integer totalCandy = 0;
+
+        for (House h : sorted) {
+            route.add(h.getAddress());
+            totalCandy += h.getCandyAmount();
+            if (totalCandy >= minCandyGoal) {
+                return route;
+            }
+        }
+
+        return new List<String>();
+    }
+}
+
+public class CandyThenAddressSorter implements Comparator<House> {
+    public Integer compare(House h1, House h2) {
+        if (h1.getCandyAmount() != h2.getCandyAmount()) {
+            return h2.getCandyAmount() - h1.getCandyAmount();
+        }
+        return h1.getAddress().toLowerCase().compareTo(h2.getAddress().toLowerCase());
+
+    }
+}
+
+public class ScaryThenCandySorter implements Comparator<House> {
+    public Integer compare(House h1, House h2) {
+        if (h1.getScaryLevel() != h2.getScaryLevel()) {
+            return h1.getScaryLevel() - h2.getScaryLevel();
+        }
+        return h2.getCandyAmount() - h1.getCandyAmount();
+    }
 }
